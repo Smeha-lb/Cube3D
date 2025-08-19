@@ -1,0 +1,25 @@
+/* XPM */
+static char * south_xpm[] = {
+"16 16 4 1",
+" 	c #000000",
+".	c #404040",
+"X	c #808080",
+"o	c #C0C0C0",
+"                ",
+"  ooXXooXXooXX  ",
+" oXXooXXooXXooX ",
+"XooXXooXXooXXooX",
+"XooXXooXXooXXooX",
+" oXXooXXooXXooX ",
+"  ooXXooXXooXX  ",
+"  ooXXooXXooXX  ",
+" oXXooXXooXXooX ",
+"XooXXooXXooXXooX",
+"XooXXooXXooXXooX",
+" oXXooXXooXXooX ",
+"  ooXXooXXooXX  ",
+"  ooXXooXXooXX  ",
+" oXXooXXooXXooX ",
+"XooXXooXXooXXooX",
+"                "
+};

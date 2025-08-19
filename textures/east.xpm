@@ -1,0 +1,25 @@
+/* XPM */
+static char * east_xpm[] = {
+"16 16 4 1",
+" 	c #000000",
+".	c #606060",
+"X	c #A0A0A0",
+"o	c #E0E0E0",
+"                ",
+"  ..oo..oo..oo  ",
+" .oo..oo..oo..o ",
+"o..oo..oo..oo..o",
+"o..oo..oo..oo..o",
+" .oo..oo..oo..o ",
+"  ..oo..oo..oo  ",
+"  ..oo..oo..oo  ",
+" .oo..oo..oo..o ",
+"o..oo..oo..oo..o",
+"o..oo..oo..oo..o",
+" .oo..oo..oo..o ",
+"  ..oo..oo..oo  ",
+"  ..oo..oo..oo  ",
+" .oo..oo..oo..o ",
+"o..oo..oo..oo..o",
+"                "
+};

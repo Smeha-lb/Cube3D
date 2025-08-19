@@ -1,0 +1,25 @@
+/* XPM */
+static char * north_xpm[] = {
+"16 16 4 1",
+" 	c #000000",
+".	c #808080",
+"X	c #C0C0C0",
+"o	c #FFFFFF",
+"                ",
+"  ..XX..XX..XX  ",
+" .XX..XX..XX..X ",
+"X..XX..XX..XX..X",
+"X..XX..XX..XX..X",
+" .XX..XX..XX..X ",
+"  ..XX..XX..XX  ",
+"  ..XX..XX..XX  ",
+" .XX..XX..XX..X ",
+"X..XX..XX..XX..X",
+"X..XX..XX..XX..X",
+" .XX..XX..XX..X ",
+"  ..XX..XX..XX  ",
+"  ..XX..XX..XX  ",
+" .XX..XX..XX..X ",
+"X..XX..XX..XX..X",
+"                "
+};
