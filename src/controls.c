@@ -41,16 +41,51 @@ int	handle_keyrelease(int keycode, t_game *game)
 	return (0);
 }
 
+static void	apply_movement_with_slide(t_game *game, double step_x, double step_y)
+{
+	if (game->map[(int)(game->player.y)][(int)(game->player.x + step_x)] != '1')
+		game->player.x += step_x;
+	if (game->map[(int)(game->player.y + step_y)][(int)(game->player.x)] != '1')
+		game->player.y += step_y;
+}
+
 void	handle_movement(t_game *game)
 {
+	double	vx;
+	double	vy;
+	double	len;
+	double	scale;
+
+	vx = 0.0;
+	vy = 0.0;
 	if (game->keys[KEY_W])
-		move_forward(game);
+	{
+		vx += game->player.dir_x;
+		vy += game->player.dir_y;
+	}
 	if (game->keys[KEY_S])
-		move_backward(game);
+	{
+		vx -= game->player.dir_x;
+		vy -= game->player.dir_y;
+	}
 	if (game->keys[KEY_A])
-		move_left(game);
+	{
+		vx -= game->player.plane_x;
+		vy -= game->player.plane_y;
+	}
 	if (game->keys[KEY_D])
-		move_right(game);
+	{
+		vx += game->player.plane_x;
+		vy += game->player.plane_y;
+	}
+	len = sqrt(vx * vx + vy * vy);
+	if (len > 0.0)
+	{
+		scale = MOVE_SPEED / len;
+		vx *= scale;
+		vy *= scale;
+		apply_movement_with_slide(game, vx, vy);
+	}
 	if (game->keys[KEY_LEFT])
 		rotate_left(game);
 	if (game->keys[KEY_RIGHT])
