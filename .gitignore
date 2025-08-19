@@ -1,0 +1,31 @@
+# Build artifacts
+cub3D
+obj/
+*.o
+*.a
+
+# MiniLibX build outputs
+minilibx-linux/obj/
+minilibx-linux/libmlx.a
+minilibx-linux/libmlx_Linux.a
+minilibx-linux/test/mlx-test
+minilibx-linux/test/main.o
+
+# Logs
+*.log
+
+# OS / Editor junk
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Clangd/cache
+.clangd/
+.cache/
+.clangd
+.compile_flags.txt
+
+# Compilation database (if generated)
+compile_commands.json
