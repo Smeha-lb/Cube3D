@@ -1,7 +1,0 @@
-CompileFlags:
-  Add:
-    - -Iincludes
-    - -Iminilibx-linux
-    - -std=c99
-    - -Wall
-    - -Wextra
