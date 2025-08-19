@@ -36,6 +36,8 @@
 # define KEY_RIGHT 65363
 # define KEY_ESC 65307
 # define KEY_M 109
+# define KEY_SHIFT_L 65505
+# define KEY_SHIFT_R 65506
 
 # define NORTH 0
 # define SOUTH 1
@@ -45,6 +47,8 @@
 # define SUCCESS 0
 # define ERROR 1
 
+# define SPRINT_MULTIPLIER 2.0
+
 typedef struct s_player
 {
 	double	x;
@@ -53,7 +57,7 @@ typedef struct s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
-}	t_player;
+} t_player;
 
 typedef struct s_ray
 {
@@ -69,7 +73,7 @@ typedef struct s_ray
 	double	perp_wall_dist;
 	int		map_x;
 	int		map_y;
-}	t_ray;
+} t_ray;
 
 typedef struct s_texture
 {
@@ -81,7 +85,7 @@ typedef struct s_texture
 	int		width;
 	int		height;
 	char	*path;
-}	t_texture;
+} t_texture;
 
 typedef struct s_game
 {
@@ -104,7 +108,7 @@ typedef struct s_game
 	int			mouse_initialized;
 	int			warping_mouse;
 	int			mouse_captured;
-}	t_game;
+} t_game;
 
 // Main functions
 int		main(int argc, char **argv);
@@ -169,19 +173,19 @@ int		get_texture_color(t_texture *texture, int x, int y);
 
 // Utility functions
 int		ft_strlen(const char *s);
-char	*ft_strdup(const char *s);
+char		*ft_strdup(const char *s);
 int		ft_atoi(const char *str);
-void	ft_putstr_fd(const char *s, int fd);
-void	ft_putendl_fd(const char *s, int fd);
+void		ft_putstr_fd(const char *s, int fd);
+void		ft_putendl_fd(const char *s, int fd);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	**ft_split(char const *s, char c);
-void	ft_free_array(char **array);
-void	ft_strcpy(char *dest, const char *src);
-void	ft_strcat(char *dest, const char *src);
-char	*get_next_line(int fd);
+char		**ft_split(char const *s, char c);
+void		ft_free_array(char **array);
+void		ft_strcpy(char *dest, const char *src);
+void		ft_strcat(char *dest, const char *src);
+char		*get_next_line(int fd);
 
 // Error handling
-void	error_exit(t_game *game, const char *message);
-void	cleanup_resources(t_game *game);
+void		error_exit(t_game *game, const char *message);
+void		cleanup_resources(t_game *game);
 
 #endif

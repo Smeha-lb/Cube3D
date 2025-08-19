@@ -55,6 +55,7 @@ void	handle_movement(t_game *game)
 	double	vy;
 	double	len;
 	double	scale;
+	double	speed;
 
 	vx = 0.0;
 	vy = 0.0;
@@ -78,10 +79,14 @@ void	handle_movement(t_game *game)
 		vx += game->player.plane_x;
 		vy += game->player.plane_y;
 	}
+	// Sprint speed when either shift is held
+	speed = MOVE_SPEED;
+	if (game->keys[KEY_SHIFT_L] || game->keys[KEY_SHIFT_R])
+		speed *= SPRINT_MULTIPLIER;
 	len = sqrt(vx * vx + vy * vy);
 	if (len > 0.0)
 	{
-		scale = MOVE_SPEED / len;
+		scale = speed / len;
 		vx *= scale;
 		vy *= scale;
 		apply_movement_with_slide(game, vx, vy);
@@ -96,9 +101,10 @@ void	move_forward(t_game *game)
 {
 	double	step_x;
 	double	step_y;
+	double	speed = MOVE_SPEED * ((game->keys[KEY_SHIFT_L] || game->keys[KEY_SHIFT_R]) ? SPRINT_MULTIPLIER : 1.0);
 
-	step_x = game->player.dir_x * MOVE_SPEED;
-	step_y = game->player.dir_y * MOVE_SPEED;
+	step_x = game->player.dir_x * speed;
+	step_y = game->player.dir_y * speed;
 	// try X axis
 	if (game->map[(int)(game->player.y)][(int)(game->player.x + step_x)] != '1')
 		game->player.x += step_x;
@@ -111,9 +117,10 @@ void	move_backward(t_game *game)
 {
 	double	step_x;
 	double	step_y;
+	double	speed = MOVE_SPEED * ((game->keys[KEY_SHIFT_L] || game->keys[KEY_SHIFT_R]) ? SPRINT_MULTIPLIER : 1.0);
 
-	step_x = -game->player.dir_x * MOVE_SPEED;
-	step_y = -game->player.dir_y * MOVE_SPEED;
+	step_x = -game->player.dir_x * speed;
+	step_y = -game->player.dir_y * speed;
 	if (game->map[(int)(game->player.y)][(int)(game->player.x + step_x)] != '1')
 		game->player.x += step_x;
 	if (game->map[(int)(game->player.y + step_y)][(int)(game->player.x)] != '1')
@@ -124,9 +131,10 @@ void	move_left(t_game *game)
 {
 	double	step_x;
 	double	step_y;
+	double	speed = MOVE_SPEED * ((game->keys[KEY_SHIFT_L] || game->keys[KEY_SHIFT_R]) ? SPRINT_MULTIPLIER : 1.0);
 
-	step_x = -game->player.plane_x * MOVE_SPEED;
-	step_y = -game->player.plane_y * MOVE_SPEED;
+	step_x = -game->player.plane_x * speed;
+	step_y = -game->player.plane_y * speed;
 	if (game->map[(int)(game->player.y)][(int)(game->player.x + step_x)] != '1')
 		game->player.x += step_x;
 	if (game->map[(int)(game->player.y + step_y)][(int)(game->player.x)] != '1')
@@ -137,9 +145,10 @@ void	move_right(t_game *game)
 {
 	double	step_x;
 	double	step_y;
+	double	speed = MOVE_SPEED * ((game->keys[KEY_SHIFT_L] || game->keys[KEY_SHIFT_R]) ? SPRINT_MULTIPLIER : 1.0);
 
-	step_x = game->player.plane_x * MOVE_SPEED;
-	step_y = game->player.plane_y * MOVE_SPEED;
+	step_x = game->player.plane_x * speed;
+	step_y = game->player.plane_y * speed;
 	if (game->map[(int)(game->player.y)][(int)(game->player.x + step_x)] != '1')
 		game->player.x += step_x;
 	if (game->map[(int)(game->player.y + step_y)][(int)(game->player.x)] != '1')
