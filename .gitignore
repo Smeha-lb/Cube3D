@@ -25,7 +25,10 @@ Thumbs.db
 .clangd/
 .cache/
 .clangd
-.compile_flags.txt
+compile_flags.txt
 
 # Compilation database (if generated)
 compile_commands.json
+
+#random stuff
+Cube3D.subject.txt
