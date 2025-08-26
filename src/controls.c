@@ -92,9 +92,9 @@ void	handle_movement(t_game *game)
 		apply_movement_with_slide(game, vx, vy);
 	}
 	if (game->keys[KEY_LEFT])
-		rotate_left(game);
-	if (game->keys[KEY_RIGHT])
 		rotate_right(game);
+	if (game->keys[KEY_RIGHT])
+		rotate_left(game);
 }
 
 void	move_forward(t_game *game)
@@ -192,11 +192,15 @@ void	rotate_right(t_game *game)
 int	handle_mouse_move(int x, int y, t_game *game)
 {
 	(void)y;
+	if (!game)
+		return (0);
 	if (game->warping_mouse)
 	{
 		game->warping_mouse = 0;
 		return (0);
 	}
+	if (!game->mouse_captured)
+		return (0);
 	if (!game->mouse_initialized)
 	{
 		game->mouse_initialized = 1;
@@ -204,9 +208,6 @@ int	handle_mouse_move(int x, int y, t_game *game)
 		mlx_mouse_move(game->mlx_ptr, game->win_ptr, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 		return (0);
 	}
-	if (!game->mouse_captured)
-		return (0);
-
 	int center_x = SCREEN_WIDTH / 2;
 	int dx = x - center_x;
 	if (dx != 0)
@@ -223,7 +224,6 @@ int	handle_mouse_move(int x, int y, t_game *game)
 		game->player.plane_y = old_plane_x * sin(angle)
 			+ game->player.plane_y * cos(angle);
 	}
-	// Recenter immediately to keep cursor locked to window
 	game->warping_mouse = 1;
 	mlx_mouse_move(game->mlx_ptr, game->win_ptr, center_x, SCREEN_HEIGHT / 2);
 	return (0);

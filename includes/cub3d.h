@@ -126,6 +126,7 @@ int		parse_map(t_game *game, char *line);
 int		validate_map(t_game *game);
 int		check_wall_closure(t_game *game);
 int		find_player_spawn(t_game *game, int y, int x);
+int		check_map_enclosed_floodfill(t_game *game);
 
 // Raycasting functions
 void	cast_rays(t_game *game);

@@ -26,6 +26,9 @@ void	init_game(t_game *game)
 	game->screen_img = NULL;
 	game->screen_addr = NULL;
 	game->mouse_captured = 1;
+	game->warping_mouse = 0;
+	game->mouse_initialized = 0;
+	game->mouse_prev_x = SCREEN_WIDTH / 2;
 	i = 0;
 	while (i < 4)
 	{
@@ -33,6 +36,7 @@ void	init_game(t_game *game)
 		game->textures[i].addr = NULL;
 		game->textures[i].width = 0;
 		game->textures[i].height = 0;
+		game->textures[i].path = NULL;
 		i++;
 	}
 	i = 0;
@@ -70,6 +74,8 @@ void	cleanup_resources(t_game *game)
 	{
 		if (game->textures[i].img)
 			mlx_destroy_image(game->mlx_ptr, game->textures[i].img);
+		if (game->textures[i].path)
+			free(game->textures[i].path);
 		i++;
 	}
 	if (game->screen_img)

@@ -71,5 +71,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	mlx_loop(game.mlx_ptr);
+	// Ensure all MLX resources are released when the loop ends
+	cleanup_game(&game);
 	return (0);
 }
