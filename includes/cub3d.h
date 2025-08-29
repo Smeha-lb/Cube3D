@@ -12,6 +12,12 @@
 # define WIN_W 800
 # define WIN_H 600
 
+# define NC		"\e[0m"
+# define RED	"\e[31m"
+# define GREEN	"\e[32m"
+# define PURPLE	"\e[35m"
+# define CYAN	"\e[36m"
+
 typedef struct s_color
 {
 	int r;
@@ -62,6 +68,7 @@ typedef struct s_keys
 	int left;
 	int right;
 } t_keys;
+
 
 typedef struct s_player
 {
