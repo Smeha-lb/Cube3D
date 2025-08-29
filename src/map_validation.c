@@ -41,16 +41,13 @@ int		validate_map_closed(t_map *m)
 		while (m->grid[y][x])
 		{
 			c = m->grid[y][x];
-			if (is_walkable(c))
+			if (is_walkable(c) && (cell_at(m, x+1, y) == ' '
+				|| cell_at(m, x-1, y) == ' '
+				|| cell_at(m, x, y+1) == ' '
+				|| cell_at(m, x, y-1) == ' '))
 			{
-				if (cell_at(m, x+1, y) == ' ')
-					return (1);
-				if (cell_at(m, x-1, y) == ' ')
-					return (1);
-				if (cell_at(m, x, y+1) == ' ')
-					return (1);
-				if (cell_at(m, x, y-1) == ' ')
-					return (1);
+				printf("y=%d x=%d", y+9, x);
+				return (1);
 			}
 			x++;
 		}
@@ -58,5 +55,3 @@ int		validate_map_closed(t_map *m)
 	}
 	return (0);
 }
-
-

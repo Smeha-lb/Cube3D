@@ -6,6 +6,7 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <math.h>
+# include <stdio.h>
 # include "../minilibx-linux/mlx.h"
 
 # define WIN_W 800
