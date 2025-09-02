@@ -61,7 +61,7 @@ int	app_init(t_app *app, const char *map_path)
 	zero_keys(&app->keys);
 	app->last_mouse_x = -1;
 	if (parse_cub_file(map_path, &app->cfg))
-		return (1);
+		return (free_config(&app->cfg), 1);
 	app->mlx = mlx_init();
 	if (!app->mlx)
 		return (1);
