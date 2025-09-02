@@ -174,6 +174,7 @@ int		on_mouse_move(int x, int y, void *param);
 
 /* utils */
 size_t	my_strlen(const char *s);
+int		print_error(char *msg);
 int		my_strncmp(const char *a, const char *b, size_t n);
 char	*my_strdup(const char *s);
 int		my_is_space(int c);

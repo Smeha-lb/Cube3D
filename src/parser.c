@@ -132,20 +132,20 @@ static int	scan_player(t_map *m)
 	return (1);
 }
 
+// TODO: this needs to be moved to before main, and
 int		parse_cub_file(const char *path, t_config *cfg)
 {
 	char	**lines;
 	int		n;
 	int		i;
 	int		map_i;
+	int		r;
 
 	if (read_file_lines(path, &lines, &n))
 		return (1);
 	i = 0;
 	while (i < n)
 	{
-		int r;
-
 		r = parse_identifier(lines[i], cfg);
 		if (r == 0 || r == 1)
 		{

@@ -111,7 +111,7 @@ int		read_file_lines(const char *path, char ***out_lines, int *out_n)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (1);
-	acc = (char *)malloc(1);
+	acc = (char *)malloc(sizeof(char));
 	if (!acc)
 		return (close(fd), 1);
 	acc[0] = '\0';
