@@ -53,6 +53,8 @@ static int	parse_identifier(char *line, t_config *cfg)
 		return (assign_path(&cfg->tex_ea.path, line + 3));
 	if (my_strncmp(line, "DO ", 3) == 0)
 		return (assign_path(&cfg->tex_door.path, line + 3));
+	if (my_strncmp(line, "TO ", 3) == 0)
+		return (assign_path(&cfg->tex_torch.path, line + 3));
 	if (my_strncmp(line, "F ", 2) == 0)
 		return (parse_rgb(line + 2, &cfg->floor));
 	if (my_strncmp(line, "C ", 2) == 0)
@@ -188,11 +190,18 @@ void	free_config(t_config *cfg)
 		free(cfg->tex_ea.path);
 	if (cfg->tex_door.path)
 		free(cfg->tex_door.path);
+	if (cfg->tex_torch.path)
+		free(cfg->tex_torch.path);
 	cfg->tex_no.path = NULL;
 	cfg->tex_so.path = NULL;
 	cfg->tex_we.path = NULL;
 	cfg->tex_ea.path = NULL;
 	cfg->tex_door.path = NULL;
+	cfg->tex_torch.path = NULL;
+	if (cfg->sprites)
+		free(cfg->sprites);
+	cfg->sprites = NULL;
+	cfg->num_sprites = 0;
 }
 
 

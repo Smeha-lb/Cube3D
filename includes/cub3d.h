@@ -72,6 +72,12 @@ typedef struct s_map
 	char	player_dir;
 } t_map;
 
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+} t_sprite;
+
 typedef struct s_keys
 {
 	int w;
@@ -102,9 +108,12 @@ typedef struct s_config
 	t_texture	tex_we;
 	t_texture	tex_ea;
 	t_texture	tex_door;
+	t_texture	tex_torch;
 	t_color	floor;
 	t_color	ceiling;
 	t_map		map;
+	t_sprite	*sprites;
+	int		num_sprites;
 } t_config;
 
 struct s_app
@@ -117,6 +126,13 @@ struct s_app
 	t_config	cfg;
 	t_player	player;
 	int		last_mouse_x;
+	double	zbuf[WIN_W];
+	int		torch_count;
+	int		hud_msg_timer;
+	int		total_torches;
+	double	base_move_speed;
+	double	base_rot_speed;
+	long	last_time_ms;
 };
 
 int		app_init(t_app *app, const char *map_path);
@@ -144,6 +160,11 @@ int		validate_map_closed(t_map *m);
 void	raycast_frame(t_app *app);
 void	draw_minimap(t_app *app);
 void	draw_hud(t_app *app);
+void	draw_sprites(t_app *app);
+
+/* sprites */
+int		init_sprites(t_config *cfg);
+void	pickup_sprites_near_player(t_app *app);
 
 /* doors */
 void	toggle_door_in_front(t_app *app);

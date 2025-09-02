@@ -25,6 +25,8 @@ int		load_textures(void *mlx, t_config *cfg)
 		return (1);
 	if (cfg->tex_door.path && load_one(mlx, &cfg->tex_door))
 		return (1);
+	if (cfg->tex_torch.path && load_one(mlx, &cfg->tex_torch))
+		return (1);
 	return (0);
 }
 
@@ -41,6 +43,7 @@ void	destroy_textures(void *mlx, t_config *cfg)
 	destroy_one(mlx, &cfg->tex_we);
 	destroy_one(mlx, &cfg->tex_ea);
 	destroy_one(mlx, &cfg->tex_door);
+	destroy_one(mlx, &cfg->tex_torch);
 }
 
 

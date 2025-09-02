@@ -44,8 +44,9 @@ int	render_loop(void *param)
 	update_player(app);
 	draw_background(&app->frame, app->cfg.ceiling.argb, app->cfg.floor.argb);
 	raycast_frame(app);
+	draw_sprites(app);
 	draw_minimap(app);
-	draw_hud(app);
 	mlx_put_image_to_window(app->mlx, app->win, app->frame.handle, 0, 0);
+	draw_hud(app);
 	return (0);
 }

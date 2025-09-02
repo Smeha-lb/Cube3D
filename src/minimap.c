@@ -63,7 +63,53 @@ void	draw_minimap(t_app *app)
 
 void	draw_hud(t_app *app)
 {
-	(void)app;
+	char buf[64];
+	int x;
+	int y;
+	int a;
+	int b;
+	int i;
+
+	x = WIN_W - 180;
+	y = WIN_H - 30;
+	i = 0;
+	buf[i++] = 'T';
+	buf[i++] = 'o';
+	buf[i++] = 'r';
+	buf[i++] = 'c';
+	buf[i++] = 'h';
+	buf[i++] = 'e';
+	buf[i++] = 's';
+	buf[i++] = ' ';
+	buf[i++] = '(';
+	a = app->torch_count;
+	if (a < 0)
+		a = 0;
+	if (a > 99)
+		a = 99;
+	if (a >= 10)
+	{
+		buf[i++] = '0' + (a / 10);
+		buf[i++] = '0' + (a % 10);
+	}
+	else
+		buf[i++] = '0' + a;
+	buf[i++] = '/';
+	b = app->total_torches;
+	if (b < 0)
+		b = 0;
+	if (b > 99)
+		b = 99;
+	if (b >= 10)
+	{
+		buf[i++] = '0' + (b / 10);
+		buf[i++] = '0' + (b % 10);
+	}
+	else
+		buf[i++] = '0' + b;
+	buf[i++] = ')';
+	buf[i] = '\0';
+	mlx_string_put(app->mlx, app->win, x, y, 0xFFFF00, buf);
 }
 
 

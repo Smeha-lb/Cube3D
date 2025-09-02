@@ -28,7 +28,8 @@ SRCS		:= \
 	$(SRC_DIR)/raycast.c \
 	$(SRC_DIR)/minimap.c \
 	$(SRC_DIR)/doors.c \
-	$(SRC_DIR)/mouse.c
+	$(SRC_DIR)/mouse.c \
+	$(SRC_DIR)/sprites.c
 
 OBJS		:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

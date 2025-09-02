@@ -1,4 +1,5 @@
 #include "../includes/cub3d.h"
+#include <sys/time.h>
 
 static void	set_dir_plane(t_player *p, char d)
 {
@@ -40,38 +41,68 @@ void	init_player_from_map(t_app *app)
 	app->player.x = m->player_x + 0.5;
 	app->player.y = m->player_y + 0.5;
 	set_dir_plane(&app->player, m->player_dir);
-	app->player.move_speed = 0.02;
-	app->player.rot_speed = 0.025;
+	app->player.move_speed = 0.0;
+	app->player.rot_speed = 0.0;
+}
+
+static int	is_wall_cell(t_map *m, double x, double y)
+{
+	int gx;
+	int gy;
+
+	gx = (int)floor(x);
+	gy = (int)floor(y);
+	if (map_is_wall(m, gx, gy))
+		return (1);
+	return (0);
 }
 
 static void	try_move(t_app *app, double nx, double ny)
 {
-	double off;
-	double cx;
-	double cy;
+	double r;
+	double y;
+	double x;
+	double sx;
+	double sy;
 
-	off = 0.15;
-	cx = nx;
-	if (nx > app->player.x)
-		cx = nx + off;
-	else
-		cx = nx - off;
-	cy = app->player.y;
-	if (!map_is_wall(&app->cfg.map, (int)cx, (int)cy))
+	r = 0.20;
+	y = app->player.y;
+	sx = r;
+	if (nx < app->player.x)
+		sx = -r;
+	if (!is_wall_cell(&app->cfg.map, nx + sx, y)
+		&& !is_wall_cell(&app->cfg.map, nx + sx, y + r)
+		&& !is_wall_cell(&app->cfg.map, nx + sx, y - r))
 		app->player.x = nx;
-	cx = app->player.x;
-	cy = ny;
-	if (ny > app->player.y)
-		cy = ny + off;
-	else
-		cy = ny - off;
-	if (!map_is_wall(&app->cfg.map, (int)cx, (int)cy))
+	x = app->player.x;
+	sy = r;
+	if (ny < app->player.y)
+		sy = -r;
+	if (!is_wall_cell(&app->cfg.map, x, ny + sy)
+		&& !is_wall_cell(&app->cfg.map, x + r, ny + sy)
+		&& !is_wall_cell(&app->cfg.map, x - r, ny + sy))
 		app->player.y = ny;
 }
 
 static void	build_move_delta(t_app *app, double *dx, double *dy)
 {
 	double s;
+	struct timeval tv;
+	long now;
+	long dt_ms;
+	double dt;
+
+	gettimeofday(&tv, NULL);
+	now = (long)tv.tv_sec * 1000L + (long)(tv.tv_usec / 1000L);
+	dt_ms = now - app->last_time_ms;
+	if (dt_ms < 0)
+		dt_ms = 0;
+	if (dt_ms > 100)
+		dt_ms = 100;
+	dt = (double)dt_ms / 1000.0;
+	app->last_time_ms = now;
+	app->player.move_speed = app->base_move_speed * dt;
+	app->player.rot_speed = app->base_rot_speed * dt;
 	double len;
 
 	*dx = 0.0;
@@ -116,7 +147,10 @@ void	update_player(t_app *app)
 
 	build_move_delta(app, &dx, &dy);
 	if (dx != 0.0 || dy != 0.0)
+	{
 		try_move(app, app->player.x + dx, app->player.y + dy);
+		pickup_sprites_near_player(app);
+	}
 	if (app->keys.left || app->keys.right)
 	{
 		if (app->keys.right)

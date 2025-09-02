@@ -2,7 +2,7 @@
 
 static int	is_walkable(char c)
 {
-	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	if (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == 'T')
 		return (1);
 	return (0);
 }

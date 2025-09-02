@@ -1,5 +1,6 @@
 #include "../includes/cub3d.h"
 #include <string.h>
+#include <sys/time.h>
 
 static void	image_clear(t_image *img)
 {
@@ -29,7 +30,11 @@ static void	zero_config(t_config *cfg)
 	cfg->tex_ea.img = NULL;
 	cfg->tex_door.path = NULL;
 	cfg->tex_door.img = NULL;
+	cfg->tex_torch.path = my_strdup("textures/torch.xpm");
+	cfg->tex_torch.img = NULL;
 	cfg->map.grid = NULL;
+	cfg->sprites = NULL;
+	cfg->num_sprites = 0;
 }
 
 static void	zero_keys(t_keys *k)
@@ -75,7 +80,22 @@ int	app_init(t_app *app, const char *map_path)
 	app->running = 1;
 	if (load_textures(app->mlx, &app->cfg))
 		return (1);
+	if (init_sprites(&app->cfg))
+        return (1);
 	init_player_from_map(app);
+	app->torch_count = 0;
+	app->hud_msg_timer = 0;
+	app->total_torches = app->cfg.num_sprites;
+	app->base_move_speed = 2.5;
+	app->base_rot_speed = 1.5;
+	{
+		struct timeval tv;
+		long ms;
+
+		gettimeofday(&tv, NULL);
+		ms = (long)tv.tv_sec * 1000L + (long)(tv.tv_usec / 1000L);
+		app->last_time_ms = ms;
+	}
 	mlx_loop_hook(app->mlx, render_loop, app);
 	mlx_hook(app->win, 17, 0, on_destroy, app);
 	mlx_hook(app->win, 2, 1L<<0, on_key_press, app);

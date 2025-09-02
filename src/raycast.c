@@ -133,7 +133,7 @@ void	raycast_frame(t_app *app)
 		if ((side == 0 && rdx > 0) || (side == 1 && rdy < 0))
 			tex_x = tx->w - tex_x - 1;
 		step = 1.0 * tx->h / line_h;
-		texPos = (draw_s - WIN_H / 2 + line_h / 2) * step;
+		texPos = (draw_s - WIN_H / 2.0 + line_h / 2.0) * step;
 		y = draw_s;
 		while (y < draw_e)
 		{
@@ -147,6 +147,7 @@ void	raycast_frame(t_app *app)
 			}
 			y++;
 		}
+		app->zbuf[x] = pwd;
 		x++;
 	}
 }
