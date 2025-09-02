@@ -12,6 +12,19 @@
 # define WIN_W 800
 # define WIN_H 600
 
+/* UI/Minimap colors */
+# define COLOR_MINIMAP_EMPTY 0x202020
+# define COLOR_MINIMAP_WALL 0x5A5A5A
+# define COLOR_MINIMAP_DOOR 0x8B5A2B
+# define COLOR_MINIMAP_PLAYER 0xFF3333
+
+/* Terminal colors */
+# define T_COL_RESET "\033[0m"
+# define T_COL_RED "\033[31m"
+# define T_COL_GREEN "\033[32m"
+# define T_COL_YELLOW "\033[33m"
+# define T_COL_BLUE "\033[34m"
+
 # define NC		"\e[0m"
 # define RED	"\e[31m"
 # define GREEN	"\e[32m"

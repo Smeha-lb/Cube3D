@@ -46,9 +46,11 @@ void	draw_minimap(t_app *app)
 		while (app->cfg.map.grid[y][x])
 		{
 			if (app->cfg.map.grid[y][x] == '1')
-				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, 0x666666);
+				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, COLOR_MINIMAP_WALL);
+			else if (app->cfg.map.grid[y][x] == 'D')
+				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, COLOR_MINIMAP_DOOR);
 			else
-				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, 0x222222);
+				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, COLOR_MINIMAP_EMPTY);
 			x++;
 		}
 		y++;
@@ -56,7 +58,7 @@ void	draw_minimap(t_app *app)
 	draw_rect(&app->frame,
 			 ox + (int)(app->player.x * scale) - 2,
 			 oy + (int)(app->player.y * scale) - 2,
-			 4, 4, 0xFF0000);
+			 4, 4, COLOR_MINIMAP_PLAYER);
 }
 
 void	draw_hud(t_app *app)

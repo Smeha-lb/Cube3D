@@ -3,7 +3,7 @@
 
 static int	print_error(const char *msg)
 {
-	write(2, "Error\n", 6);
+	write(2, T_COL_RED "Error\n" T_COL_RESET, 5 + 6 + 4);
 	if (msg)
 		write(2, msg, (int)strlen(msg));
 	write(2, "\n", 1);
