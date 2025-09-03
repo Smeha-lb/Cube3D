@@ -132,6 +132,26 @@ static int	scan_player(t_map *m)
 	return (1);
 }
 
+static bool	validate_map(char **lines, int start, int end)
+{
+	int	i;
+	int	j;
+
+	i = start;
+	while (i < end)
+	{
+		j = 0;
+		while (lines[i][j])
+		{
+			if (!is_valid_map_char(lines[i][j]))
+				return (false);
+			j++;
+		}
+		i++;
+	}
+	return (true);
+}
+
 // TODO: this needs to be moved to before main, and
 int		parse_cub_file(const char *path, t_config *cfg)
 {
@@ -158,6 +178,8 @@ int		parse_cub_file(const char *path, t_config *cfg)
 	}
 	map_i = find_map_start(lines, n);
 	if (map_i < 0)
+		return (free_lines(lines), 1);
+	if (!validate_map(lines, map_i, n))
 		return (free_lines(lines), 1);
 	if (copy_map(lines, map_i, n, &cfg->map))
 		return (free_lines(lines), 1);

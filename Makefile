@@ -30,7 +30,8 @@ SRCS		:= \
 	$(SRC_DIR)/doors.c \
 	$(SRC_DIR)/mouse.c \
 	$(SRC_DIR)/sprites.c \
-	$(SRC_DIR)/print_error.c
+	$(SRC_DIR)/print_error.c \
+	$(SRC_DIR)/utils.c
 
 OBJS		:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

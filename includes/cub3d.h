@@ -31,6 +31,8 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
+# define VALID_MAP_CHARS "NWSET01"
+
 typedef struct s_color
 {
 	int r;
@@ -173,11 +175,12 @@ void	toggle_door_in_front(t_app *app);
 int		on_mouse_move(int x, int y, void *param);
 
 /* utils */
+char	*my_strdup(const char *s);
 size_t	my_strlen(const char *s);
 int		print_error(char *msg);
 int		my_strncmp(const char *a, const char *b, size_t n);
-char	*my_strdup(const char *s);
 int		my_is_space(int c);
 int		my_atoi(const char *s, int *out);
+bool	is_valid_map_char(char c);
 
 #endif
