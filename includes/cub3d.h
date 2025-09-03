@@ -9,8 +9,8 @@
 # include <stdio.h>
 # include "../minilibx-linux/mlx.h"
 
-# define WIN_W 800
-# define WIN_H 600
+# define WIN_W 1920
+# define WIN_H 1080
 
 /* UI/Minimap colors */
 # define COLOR_MINIMAP_EMPTY 0x202020

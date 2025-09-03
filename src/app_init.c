@@ -30,7 +30,7 @@ static void	zero_config(t_config *cfg)
 	cfg->tex_ea.img = NULL;
 	cfg->tex_door.path = NULL;
 	cfg->tex_door.img = NULL;
-	cfg->tex_torch.path = my_strdup("textures/torch.xpm");
+	cfg->tex_torch.path = NULL;
 	cfg->tex_torch.img = NULL;
 	cfg->map.grid = NULL;
 	cfg->sprites = NULL;
