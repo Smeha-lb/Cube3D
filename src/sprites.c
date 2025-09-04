@@ -92,7 +92,10 @@ static void blit_sprite_column(t_app *app, int x, int y0, int y1, int tex_x)
     int color;
     t_texture *tx;
 
-    tx = &app->cfg.tex_torch;
+    if (app->cfg.torch_frame_count > 0)
+        tx = &app->cfg.torch_frames[app->torch_frame_index % app->cfg.torch_frame_count];
+    else
+        tx = &app->cfg.tex_torch;
     step = (double)tx->h / (double)(y1 - y0);
     tpos = 0.0;
     y = y0;
@@ -116,7 +119,10 @@ static void render_sprite_stripes(t_app *app, int sx, int sw, int dy0, int dy1, 
     int tx;
     t_texture *t;
 
-    t = &app->cfg.tex_torch;
+    if (app->cfg.torch_frame_count > 0)
+        t = &app->cfg.torch_frames[app->torch_frame_index % app->cfg.torch_frame_count];
+    else
+        t = &app->cfg.tex_torch;
     stripe = sx - (int)(sw / 2.0);
     if (stripe < 0)
         stripe = 0;
@@ -170,7 +176,7 @@ void draw_sprites(t_app *app)
 
     if (app->cfg.num_sprites <= 0)
         return ;
-    if (!app->cfg.tex_torch.img)
+    if (!app->cfg.tex_torch.img && app->cfg.torch_frame_count <= 0)
         return ;
     i = 0;
     while (i < app->cfg.num_sprites)

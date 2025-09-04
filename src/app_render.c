@@ -1,4 +1,5 @@
 #include "../includes/cub3d.h"
+#include <sys/time.h>
 
 static void	put_pixel(t_image *img, int x, int y, int color)
 {
@@ -12,8 +13,8 @@ static void	put_pixel(t_image *img, int x, int y, int color)
 
 static void	draw_half(t_image *img, int y0, int y1, int color)
 {
-	int	y;
-	int	x;
+	int		y;
+	int		x;
 
 	y = y0;
 	while (y < y1)
@@ -41,6 +42,29 @@ int	render_loop(void *param)
 	app = (t_app *)param;
 	if (!app->running)
 		return (0);
+	{
+		struct timeval tv;
+		long now;
+		long dt_ms;
+
+		gettimeofday(&tv, NULL);
+		now = (long)tv.tv_sec * 1000L + (long)(tv.tv_usec / 1000L);
+		dt_ms = now - app->last_anim_time_ms;
+		if (dt_ms < 0)
+			dt_ms = 0;
+		app->last_anim_time_ms = now;
+		app->torch_anim_accum_ms = app->torch_anim_accum_ms + dt_ms;
+		while (app->torch_anim_accum_ms >= app->torch_frame_ms)
+		{
+			app->torch_anim_accum_ms = app->torch_anim_accum_ms - app->torch_frame_ms;
+			if (app->cfg.torch_frame_count > 0)
+			{
+				app->torch_frame_index = app->torch_frame_index + 1;
+				if (app->torch_frame_index >= app->cfg.torch_frame_count)
+					app->torch_frame_index = 0;
+			}
+		}
+	}
 	update_player(app);
 	draw_background(&app->frame, app->cfg.ceiling.argb, app->cfg.floor.argb);
 	raycast_frame(app);

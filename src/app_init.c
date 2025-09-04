@@ -96,6 +96,10 @@ int	app_init(t_app *app, const char *map_path)
 		ms = (long)tv.tv_sec * 1000L + (long)(tv.tv_usec / 1000L);
 		app->last_time_ms = ms;
 	}
+	app->torch_frame_index = 0;
+	app->torch_frame_ms = TORCH_FRAME_MS;
+	app->torch_anim_accum_ms = 0;
+	app->last_anim_time_ms = app->last_time_ms;
 	mlx_loop_hook(app->mlx, render_loop, app);
 	mlx_hook(app->win, 17, 0, on_destroy, app);
 	mlx_hook(app->win, 2, 1L<<0, on_key_press, app);

@@ -12,6 +12,10 @@
 # define WIN_W 1920
 # define WIN_H 1080
 
+/* Animation */
+# define TORCH_MAX_FRAMES 8
+# define TORCH_FRAME_MS 120
+
 /* UI/Minimap colors */
 # define COLOR_MINIMAP_EMPTY 0x202020
 # define COLOR_MINIMAP_WALL 0x5A5A5A
@@ -111,6 +115,8 @@ typedef struct s_config
 	t_texture	tex_ea;
 	t_texture	tex_door;
 	t_texture	tex_torch;
+	t_texture	torch_frames[TORCH_MAX_FRAMES];
+	int		torch_frame_count;
 	t_color	floor;
 	t_color	ceiling;
 	t_map		map;
@@ -132,6 +138,10 @@ struct s_app
 	int		torch_count;
 	int		hud_msg_timer;
 	int		total_torches;
+	int		torch_frame_index;
+	long	 torch_anim_accum_ms;
+	int		torch_frame_ms;
+	long	 last_anim_time_ms;
 	double	base_move_speed;
 	double	base_rot_speed;
 	long	last_time_ms;

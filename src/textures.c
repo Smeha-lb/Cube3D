@@ -13,6 +13,34 @@ static int	load_one(void *mlx, t_texture *tx)
 	return (0);
 }
 
+static int	load_torch_frames(void *mlx, t_config *cfg)
+{
+    int i;
+    const char *paths[TORCH_MAX_FRAMES] = {
+        "./textures/torch_0.xpm",
+        "./textures/torch_1.xpm",
+        "./textures/torch_2.xpm",
+        "./textures/torch_3.xpm",
+        "./textures/torch_4.xpm",
+        "./textures/torch_5.xpm",
+        "./textures/torch_6.xpm",
+        "./textures/torch_7.xpm"
+    };
+
+    cfg->torch_frame_count = 0;
+    i = 0;
+    while (i < TORCH_MAX_FRAMES)
+    {
+        cfg->torch_frames[i].path = (char *)paths[i];
+        if (load_one(mlx, &cfg->torch_frames[i]) == 0)
+            cfg->torch_frame_count = cfg->torch_frame_count + 1;
+        else
+            break ;
+        i++;
+    }
+    return (0);
+}
+
 int		load_textures(void *mlx, t_config *cfg)
 {
 	if (load_one(mlx, &cfg->tex_no))
@@ -42,6 +70,7 @@ int		load_textures(void *mlx, t_config *cfg)
 			}
 		}
 	}
+	load_torch_frames(mlx, cfg);
 	return (0);
 }
 
@@ -59,6 +88,16 @@ void	destroy_textures(void *mlx, t_config *cfg)
 	destroy_one(mlx, &cfg->tex_ea);
 	destroy_one(mlx, &cfg->tex_door);
 	destroy_one(mlx, &cfg->tex_torch);
+    {
+        int i;
+
+        i = 0;
+        while (i < cfg->torch_frame_count)
+        {
+            destroy_one(mlx, &cfg->torch_frames[i]);
+            i++;
+        }
+    }
 }
 
 
