@@ -25,8 +25,23 @@ int		load_textures(void *mlx, t_config *cfg)
 		return (1);
 	if (cfg->tex_door.path && load_one(mlx, &cfg->tex_door))
 		return (1);
-	if (cfg->tex_torch.path && load_one(mlx, &cfg->tex_torch))
-		return (1);
+	/* Torch texture is optional: use default if not provided, don't abort on failure */
+	if (!cfg->tex_torch.path)
+		cfg->tex_torch.path = my_strdup("./textures/torch_0.xpm");
+	if (cfg->tex_torch.path)
+	{
+		if (load_one(mlx, &cfg->tex_torch))
+		{
+			print_error("Failed to load torch texture. Ensure textures/torch_0.xpm exists and run from project root.\n");
+			free(cfg->tex_torch.path);
+			cfg->tex_torch.path = my_strdup("./textures/torch.xpm");
+			if (cfg->tex_torch.path)
+			{
+				if (load_one(mlx, &cfg->tex_torch))
+					print_error("Failed to load fallback torch texture textures/torch.xpm.\n");
+			}
+		}
+	}
 	return (0);
 }
 

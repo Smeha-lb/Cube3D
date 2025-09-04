@@ -122,7 +122,10 @@ static void render_sprite_stripes(t_app *app, int sx, int sw, int dy0, int dy1, 
         stripe = 0;
     while (stripe < sx + (int)(sw / 2.0) && stripe < WIN_W)
     {
-        if (depth < app->zbuf[stripe])
+        double z;
+
+        z = app->zbuf[stripe];
+        if (z <= 0.0 || depth < z)
         {
             tx = (int)((stripe - (sx - (int)(sw / 2.0))) * t->w / (double)sw);
             blit_sprite_column(app, stripe, dy0, dy1, tx);
