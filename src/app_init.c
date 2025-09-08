@@ -81,7 +81,7 @@ int	app_init(t_app *app, const char *map_path)
 	if (load_textures(app->mlx, &app->cfg))
 		return (1);
 	if (init_sprites(&app->cfg))
-        return (1);
+		return (1);
 	init_player_from_map(app);
 	app->torch_count = 0;
 	app->hud_msg_timer = 0;
