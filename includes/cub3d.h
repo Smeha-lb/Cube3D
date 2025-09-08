@@ -35,7 +35,7 @@
 # define PURPLE	"\e[35m"
 # define CYAN	"\e[36m"
 
-# define VALID_MAP_CHARS "NWSETD01T"
+# define VALID_MAP_CHARS "NWSETD01"
 
 typedef struct s_color
 {

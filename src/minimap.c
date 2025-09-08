@@ -71,7 +71,7 @@ void	draw_hud(t_app *app)
 	int i;
 
 	x = WIN_W - 180;
-	y = WIN_H - 30;
+	y = WIN_H - 90;
 	i = 0;
 	buf[i++] = 'T';
 	buf[i++] = 'o';
