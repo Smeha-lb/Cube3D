@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprites.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:09:46 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:30:14 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
-static int count_sprites(t_map *m)
+static int	count_sprites(t_map *m)
 {
-	int y;
-	int x;
-	int c;
+	int	y;
+	int	x;
+	int	c;
 
 	y = 0;
 	c = 0;
@@ -22,9 +34,9 @@ static int count_sprites(t_map *m)
 	return (c);
 }
 
-static void fill_sprites_row(t_config *cfg, int y, int *i)
+static void	fill_sprites_row(t_config *cfg, int y, int *i)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (cfg->map.grid[y][x])
@@ -39,10 +51,10 @@ static void fill_sprites_row(t_config *cfg, int y, int *i)
 	}
 }
 
-static void fill_sprites(t_config *cfg)
+static void	fill_sprites(t_config *cfg)
 {
-	int y;
-	int i;
+	int	y;
+	int	i;
 
 	y = 0;
 	i = 0;
@@ -53,7 +65,7 @@ static void fill_sprites(t_config *cfg)
 	}
 }
 
-int init_sprites(t_config *cfg)
+int	init_sprites(t_config *cfg)
 {
 	cfg->num_sprites = count_sprites(&cfg->map);
 	if (cfg->num_sprites <= 0)
@@ -65,7 +77,7 @@ int init_sprites(t_config *cfg)
 	return (0);
 }
 
-static int clamp(int v, int lo, int hi)
+static int	clamp(int v, int lo, int hi)
 {
 	if (v < lo)
 		return (lo);
@@ -74,9 +86,9 @@ static int clamp(int v, int lo, int hi)
 	return (v);
 }
 
-static int get_sprite_color(t_texture *tx, int x, int y)
+static int	get_sprite_color(t_texture *tx, int x, int y)
 {
-	char *p;
+	char	*p;
 
 	x = clamp(x, 0, tx->w - 1);
 	y = clamp(y, 0, tx->h - 1);
@@ -84,13 +96,14 @@ static int get_sprite_color(t_texture *tx, int x, int y)
 	return (*(int *)p);
 }
 
-static void blit_sprite_column(t_app *app, int x, int y0, int y1, int tex_x)
+static void	blit_sprite_column(t_app *app, int x, int y0, int y1, int tex_x)
 {
-	int y;
-	double step;
-	double tpos;
-	int color;
-	t_texture *tx;
+	t_texture	*tx;
+	int			y;
+	double		step;
+	double		tpos;
+	int			color;
+	char		*dst;
 
 	if (app->cfg.torch_frame_count > 0)
 		tx = &app->cfg.torch_frames[app->torch_frame_index % app->cfg.torch_frame_count];
@@ -104,7 +117,6 @@ static void blit_sprite_column(t_app *app, int x, int y0, int y1, int tex_x)
 		color = get_sprite_color(tx, tex_x, (int)tpos);
 		if ((color & 0x00FFFFFF) != 0)
 		{
-			char *dst;
 			dst = app->frame.addr + (y * app->frame.line_len + x * (app->frame.bpp / 8));
 			*(unsigned int *)dst = (unsigned int)color;
 		}
@@ -113,14 +125,16 @@ static void blit_sprite_column(t_app *app, int x, int y0, int y1, int tex_x)
 	}
 }
 
-static void render_sprite_stripes(t_app *app, int sx, int sw, int dy0, int dy1, double depth)
+static void	render_sprite_stripes(t_app *app, int sx, int sw, int dy0, int dy1, double depth)
 {
-	int stripe;
-	int tx;
-	t_texture *t;
+	int			stripe;
+	int			tx;
+	double		z;
+	t_texture	*t;
 
 	if (app->cfg.torch_frame_count > 0)
-		t = &app->cfg.torch_frames[app->torch_frame_index % app->cfg.torch_frame_count];
+		t = &app->cfg.torch_frames[app->torch_frame_index
+			% app->cfg.torch_frame_count];
 	else
 		t = &app->cfg.tex_torch;
 	stripe = sx - (int)(sw / 2.0);
@@ -128,8 +142,6 @@ static void render_sprite_stripes(t_app *app, int sx, int sw, int dy0, int dy1, 
 		stripe = 0;
 	while (stripe < sx + (int)(sw / 2.0) && stripe < WIN_W)
 	{
-		double z;
-
 		z = app->zbuf[stripe];
 		if (z <= 0.0 || depth < z)
 		{
@@ -140,17 +152,17 @@ static void render_sprite_stripes(t_app *app, int sx, int sw, int dy0, int dy1, 
 	}
 }
 
-static void render_one_sprite(t_app *app, t_sprite *s)
+static void	render_one_sprite(t_app *app, t_sprite *s)
 {
-	double spx;
-	double spy;
-	double inv;
-	double tr_x;
-	double tr_y;
-	int sx;
-	int sh;
-	int dy0;
-	int dy1;
+	double	spx;
+	double	spy;
+	double	inv;
+	double	tr_x;
+	double	tr_y;
+	int		sx;
+	int 	sh;
+	int		dy0;
+	int		dy1;
 
 	spx = s->x - app->player.x;
 	spy = s->y - app->player.y;
@@ -170,9 +182,9 @@ static void render_one_sprite(t_app *app, t_sprite *s)
 	render_sprite_stripes(app, sx, sh, dy0, dy1, tr_y);
 }
 
-void draw_sprites(t_app *app)
+void	draw_sprites(t_app *app)
 {
-	int i;
+	int	i;
 
 	if (app->cfg.num_sprites <= 0)
 		return ;
@@ -186,12 +198,11 @@ void draw_sprites(t_app *app)
 	}
 }
 
-
-static int sprite_is_close(t_app *app, t_sprite *s)
+static int	sprite_is_close(t_app *app, t_sprite *s)
 {
-	double dx;
-	double dy;
-	double d2;
+	double	dx;
+	double	dy;
+	double	d2;
 
 	dx = s->x - app->player.x;
 	dy = s->y - app->player.y;
@@ -201,9 +212,9 @@ static int sprite_is_close(t_app *app, t_sprite *s)
 	return (0);
 }
 
-static void remove_sprite_at_index(t_config *cfg, int idx)
+static void	remove_sprite_at_index(t_config *cfg, int idx)
 {
-	int i;
+	int	i;
 
 	i = idx;
 	while (i + 1 < cfg->num_sprites)
@@ -214,9 +225,9 @@ static void remove_sprite_at_index(t_config *cfg, int idx)
 	cfg->num_sprites--;
 }
 
-void pickup_sprites_near_player(t_app *app)
+void	pickup_sprites_near_player(t_app *app)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < app->cfg.num_sprites)
@@ -231,5 +242,3 @@ void pickup_sprites_near_player(t_app *app)
 		i++;
 	}
 }
-
-

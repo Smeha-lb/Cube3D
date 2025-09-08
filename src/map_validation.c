@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_validation.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:17:11 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:18:39 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 static int	is_walkable(char c)
@@ -18,9 +30,9 @@ static int	cell_at(t_map *m, int x, int y)
 	return (m->grid[y][x]);
 }
 
-int		map_is_wall(t_map *map, int x, int y)
+int	map_is_wall(t_map *map, int x, int y)
 {
-	char c;
+	char	c;
 
 	c = cell_at(map, x, y);
 	if (c == '1' || c == 'D')
@@ -28,11 +40,11 @@ int		map_is_wall(t_map *map, int x, int y)
 	return (0);
 }
 
-int		validate_map_closed(t_map *m)
+int	validate_map_closed(t_map *m)
 {
-	int y;
-	int x;
-	char c;
+	int		y;
+	int		x;
+	char	c;
 
 	y = 0;
 	while (y < m->height)
@@ -41,12 +53,12 @@ int		validate_map_closed(t_map *m)
 		while (m->grid[y][x])
 		{
 			c = m->grid[y][x];
-			if (is_walkable(c) && (cell_at(m, x+1, y) == ' '
-				|| cell_at(m, x-1, y) == ' '
-				|| cell_at(m, x, y+1) == ' '
-				|| cell_at(m, x, y-1) == ' '))
+			if (is_walkable(c) && (cell_at(m, x + 1, y) == ' '
+					|| cell_at(m, x - 1, y) == ' '
+					|| cell_at(m, x, y + 1) == ' '
+					|| cell_at(m, x, y - 1) == ' '))
 			{
-				printf("y=%d x=%d", y+9, x);
+				printf("y=%d x=%d", y + 9, x);
 				return (1);
 			}
 			x++;

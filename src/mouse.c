@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:17:00 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:17:05 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 int	on_mouse_move(int x, int y, void *param)
@@ -35,5 +47,3 @@ int	on_mouse_move(int x, int y, void *param)
 	a->last_mouse_x = WIN_W / 2;
 	return (0);
 }
-
-

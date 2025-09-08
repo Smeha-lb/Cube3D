@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:11:42 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:13:41 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 #include <sys/time.h>
 
@@ -35,7 +47,7 @@ static void	set_dir_plane(t_player *p, char d)
 
 void	init_player_from_map(t_app *app)
 {
-	t_map *m;
+	t_map	*m;
 
 	m = &app->cfg.map;
 	app->player.x = m->player_x + 0.5;
@@ -47,8 +59,8 @@ void	init_player_from_map(t_app *app)
 
 static int	is_wall_cell(t_map *m, double x, double y)
 {
-	int gx;
-	int gy;
+	int	gx;
+	int	gy;
 
 	gx = (int)floor(x);
 	gy = (int)floor(y);
@@ -59,11 +71,11 @@ static int	is_wall_cell(t_map *m, double x, double y)
 
 static void	try_move(t_app *app, double nx, double ny)
 {
-	double r;
-	double y;
-	double x;
-	double sx;
-	double sy;
+	double	r;
+	double	y;
+	double	x;
+	double	sx;
+	double	sy;
 
 	r = 0.20;
 	y = app->player.y;
@@ -86,11 +98,12 @@ static void	try_move(t_app *app, double nx, double ny)
 
 static void	build_move_delta(t_app *app, double *dx, double *dy)
 {
-	double s;
-	struct timeval tv;
-	long now;
-	long dt_ms;
-	double dt;
+	double			s;
+	struct timeval	tv;
+	long			now;
+	long			dt_ms;
+	double			dt;
+	double			len;
 
 	gettimeofday(&tv, NULL);
 	now = (long)tv.tv_sec * 1000L + (long)(tv.tv_usec / 1000L);
@@ -103,8 +116,6 @@ static void	build_move_delta(t_app *app, double *dx, double *dy)
 	app->last_time_ms = now;
 	app->player.move_speed = app->base_move_speed * dt;
 	app->player.rot_speed = app->base_rot_speed * dt;
-	double len;
-
 	*dx = 0.0;
 	*dy = 0.0;
 	s = app->player.move_speed;
@@ -138,12 +149,12 @@ static void	build_move_delta(t_app *app, double *dx, double *dy)
 
 void	update_player(t_app *app)
 {
-	double cs;
-	double sn;
-	double old_dx;
-	double old_px;
-	double dx;
-	double dy;
+	double	cs;
+	double	sn;
+	double	old_dx;
+	double	old_px;
+	double	dx;
+	double	dy;
 
 	build_move_delta(app, &dx, &dy);
 	if (dx != 0.0 || dy != 0.0)
@@ -171,5 +182,3 @@ void	update_player(t_app *app)
 		app->player.plane_y = old_px * sn + app->player.plane_y * cs;
 	}
 }
-
-

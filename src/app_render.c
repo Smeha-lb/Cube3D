@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   app_render.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:20:19 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:21:06 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 #include <sys/time.h>
 
@@ -37,9 +49,9 @@ static void	draw_background(t_image *img, int ceil_color, int floor_color)
 
 static void	update_animations(t_app *app)
 {
-	struct timeval tv;
-	long now;
-	long dt_ms;
+	struct timeval	tv;
+	long			now;
+	long			dt_ms;
 
 	gettimeofday(&tv, NULL);
 	now = (long)tv.tv_sec * 1000L + (long)(tv.tv_usec / 1000L);
@@ -50,7 +62,8 @@ static void	update_animations(t_app *app)
 	app->torch_anim_accum_ms = app->torch_anim_accum_ms + dt_ms;
 	while (app->torch_anim_accum_ms >= app->torch_frame_ms)
 	{
-		app->torch_anim_accum_ms = app->torch_anim_accum_ms - app->torch_frame_ms;
+		app->torch_anim_accum_ms = \
+			app->torch_anim_accum_ms - app->torch_frame_ms;
 		if (app->cfg.torch_frame_count > 0)
 		{
 			app->torch_frame_index = app->torch_frame_index + 1;

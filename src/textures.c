@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:01:08 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:30:19 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 static int	load_one(void *mlx, t_texture *tx)
@@ -15,8 +27,8 @@ static int	load_one(void *mlx, t_texture *tx)
 
 static int	load_torch_frames(void *mlx, t_config *cfg)
 {
-	int i;
-	const char *paths[TORCH_MAX_FRAMES] = {
+	int			i;
+	const char	*paths[TORCH_MAX_FRAMES] = {
 		"./textures/torch_0.xpm",
 		"./textures/torch_1.xpm",
 		"./textures/torch_2.xpm",
@@ -41,7 +53,10 @@ static int	load_torch_frames(void *mlx, t_config *cfg)
 	return (0);
 }
 
-int		load_textures(void *mlx, t_config *cfg)
+// Torch texture is optional: use default if not provided
+// don't abort on failure
+
+int	load_textures(void *mlx, t_config *cfg)
 {
 	if (load_one(mlx, &cfg->tex_no))
 		return (1);
@@ -53,7 +68,6 @@ int		load_textures(void *mlx, t_config *cfg)
 		return (1);
 	if (cfg->tex_door.path && load_one(mlx, &cfg->tex_door))
 		return (1);
-	/* Torch texture is optional: use default if not provided, don't abort on failure */
 	if (!cfg->tex_torch.path)
 		cfg->tex_torch.path = my_strdup("./textures/torch_0.xpm");
 	if (cfg->tex_torch.path)
@@ -82,6 +96,8 @@ static void	destroy_one(void *mlx, t_texture *tx)
 
 void	destroy_textures(void *mlx, t_config *cfg)
 {
+	int	i;
+
 	destroy_one(mlx, &cfg->tex_no);
 	destroy_one(mlx, &cfg->tex_so);
 	destroy_one(mlx, &cfg->tex_we);
@@ -89,8 +105,6 @@ void	destroy_textures(void *mlx, t_config *cfg)
 	destroy_one(mlx, &cfg->tex_door);
 	destroy_one(mlx, &cfg->tex_torch);
 	{
-		int i;
-
 		i = 0;
 		while (i < cfg->torch_frame_count)
 		{
@@ -99,5 +113,3 @@ void	destroy_textures(void *mlx, t_config *cfg)
 		}
 	}
 }
-
-

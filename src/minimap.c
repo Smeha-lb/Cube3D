@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:16:46 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:16:47 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 static void	put_px(t_image *img, int x, int y, int c)
 {
-	char *dst;
+	char	*dst;
 
 	if (x < 0 || y < 0 || x >= WIN_W || y >= WIN_H)
 		return ;
@@ -12,8 +24,8 @@ static void	put_px(t_image *img, int x, int y, int c)
 
 static void	draw_rect(t_image *img, int x, int y, int w, int h, int c)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (i < h)
@@ -63,12 +75,12 @@ void	draw_minimap(t_app *app)
 
 void	draw_hud(t_app *app)
 {
-	char buf[64];
-	int x;
-	int y;
-	int a;
-	int b;
-	int i;
+	char	buf[64];
+	int		x;
+	int		y;
+	int		a;
+	int		b;
+	int		i;
 
 	x = WIN_W - 180;
 	y = WIN_H - 90;
@@ -111,5 +123,3 @@ void	draw_hud(t_app *app)
 	buf[i] = '\0';
 	mlx_string_put(app->mlx, app->win, x, y, 0xFFFF00, buf);
 }
-
-

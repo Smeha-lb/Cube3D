@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   app_hooks.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:21:29 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:21:40 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 int	on_destroy(void *param)
@@ -13,7 +25,7 @@ int	on_destroy(void *param)
 
 int	on_key_press(int keycode, void *param)
 {
-	t_app *a;
+	t_app	*a;
 
 	a = (t_app *)param;
 	if (keycode == 65307)
@@ -37,7 +49,7 @@ int	on_key_press(int keycode, void *param)
 
 int	on_key_release(int keycode, void *param)
 {
-	t_app *a;
+	t_app	*a;
 
 	a = (t_app *)param;
 	if (keycode == 'w' || keycode == 'W')

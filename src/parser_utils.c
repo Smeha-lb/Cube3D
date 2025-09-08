@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:15:26 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:15:41 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -69,11 +81,11 @@ static int	slice_line(const char *src, int start, int end, char **out)
 
 static int	split_lines(const char *acc, char ***out_lines, int *out_n)
 {
-	int	count;
+	int		count;
 	char	**lines;
-	int	i;
-	int	j;
-	int	start;
+	int		i;
+	int		j;
+	int		start;
 
 	count = count_lines(acc);
 	lines = (char **)malloc(sizeof(char *) * (count + 1));
@@ -101,7 +113,7 @@ static int	split_lines(const char *acc, char ***out_lines, int *out_n)
 	return (0);
 }
 
-int		read_file_lines(const char *path, char ***out_lines, int *out_n)
+int	read_file_lines(const char *path, char ***out_lines, int *out_n)
 {
 	int		fd;
 	char	buf[1024];
@@ -131,9 +143,9 @@ int		read_file_lines(const char *path, char ***out_lines, int *out_n)
 	return (0);
 }
 
-int		free_lines(char **lines)
+int	free_lines(char **lines)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lines && lines[i])
@@ -144,5 +156,3 @@ int		free_lines(char **lines)
 	free(lines);
 	return (0);
 }
-
-

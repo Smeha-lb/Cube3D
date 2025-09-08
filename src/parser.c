@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:13:55 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:14:54 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 #include <fcntl.h>
 #include <unistd.h>
 
 static int	parse_rgb(const char *s, t_color *out)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (my_atoi(s + i, &out->r))
@@ -64,7 +76,7 @@ static int	parse_identifier(char *line, t_config *cfg)
 
 static int	find_map_start(char **lines, int n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n)
@@ -78,9 +90,9 @@ static int	find_map_start(char **lines, int n)
 
 static int	copy_map(char **lines, int start, int n, t_map *map)
 {
-	int i;
-	int h;
-	int w;
+	int	i;
+	int	h;
+	int	w;
 
 	h = n - start;
 	map->grid = (char **)malloc(sizeof(char *) * (h + 1));
@@ -105,9 +117,9 @@ static int	copy_map(char **lines, int start, int n, t_map *map)
 
 static int	scan_player(t_map *m)
 {
-	int y;
-	int x;
-	int found;
+	int	y;
+	int	x;
+	int	found;
 
 	y = 0;
 	found = 0;
@@ -116,7 +128,8 @@ static int	scan_player(t_map *m)
 		x = 0;
 		while (m->grid[y][x])
 		{
-			if (m->grid[y][x] == 'N' || m->grid[y][x] == 'S' || m->grid[y][x] == 'E' || m->grid[y][x] == 'W')
+			if (m->grid[y][x] == 'N' || m->grid[y][x] == 'S'
+				|| m->grid[y][x] == 'E' || m->grid[y][x] == 'W')
 			{
 				m->player_x = x;
 				m->player_y = y;
@@ -153,7 +166,7 @@ static bool	validate_map(char **lines, int start, int end)
 }
 
 // TODO: this needs to be moved to before main, and
-int		parse_cub_file(const char *path, t_config *cfg)
+int	parse_cub_file(const char *path, t_config *cfg)
 {
 	char	**lines;
 	int		n;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/08 14:22:16 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/08 14:24:02 by moabdels         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -39,11 +51,11 @@
 
 typedef struct s_color
 {
-	int r;
-	int g;
-	int b;
-	int argb;
-} t_color;
+	int	r;
+	int	g;
+	int	b;
+	int	argb;
+}	t_color;
 
 typedef struct s_texture
 {
@@ -55,7 +67,7 @@ typedef struct s_texture
 	int		line_len;
 	int		endian;
 	char	*path;
-} t_texture;
+}	t_texture;
 
 typedef struct s_image
 {
@@ -64,9 +76,9 @@ typedef struct s_image
 	int		bpp;
 	int		line_len;
 	int		endian;
-}t_image;
+}	t_image;
 
-typedef struct s_app t_app;
+typedef struct s_app	t_app;
 
 typedef struct s_map
 {
@@ -76,24 +88,23 @@ typedef struct s_map
 	int		player_x;
 	int		player_y;
 	char	player_dir;
-} t_map;
+}	t_map;
 
 typedef struct s_sprite
 {
 	double	x;
 	double	y;
-} t_sprite;
+}	t_sprite;
 
 typedef struct s_keys
 {
-	int w;
-	int a;
-	int s;
-	int d;
-	int left;
-	int right;
-} t_keys;
-
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int	right;
+}	t_keys;
 
 typedef struct s_player
 {
@@ -105,7 +116,7 @@ typedef struct s_player
 	double	plane_y;
 	double	move_speed;
 	double	rot_speed;
-} t_player;
+}	t_player;
 
 typedef struct s_config
 {
@@ -116,35 +127,35 @@ typedef struct s_config
 	t_texture	tex_door;
 	t_texture	tex_torch;
 	t_texture	torch_frames[TORCH_MAX_FRAMES];
-	int		torch_frame_count;
-	t_color	floor;
-	t_color	ceiling;
+	int			torch_frame_count;
+	t_color		floor;
+	t_color		ceiling;
 	t_map		map;
 	t_sprite	*sprites;
-	int		num_sprites;
-} t_config;
+	int			num_sprites;
+}	t_config;
 
 struct s_app
 {
-	void	*mlx;
-	void	*win;
-	t_image	frame;
-	int		running;
-	t_keys	keys;
+	void		*mlx;
+	void		*win;
+	t_image		frame;
+	int			running;
+	t_keys		keys;
 	t_config	cfg;
 	t_player	player;
-	int		last_mouse_x;
-	double	zbuf[WIN_W];
-	int		torch_count;
-	int		hud_msg_timer;
-	int		total_torches;
-	int		torch_frame_index;
-	long	 torch_anim_accum_ms;
-	int		torch_frame_ms;
-	long	 last_anim_time_ms;
-	double	base_move_speed;
-	double	base_rot_speed;
-	long	last_time_ms;
+	int			last_mouse_x;
+	double		zbuf[WIN_W];
+	int			torch_count;
+	int			hud_msg_timer;
+	int			total_torches;
+	int			torch_frame_index;
+	long		torch_anim_accum_ms;
+	int			torch_frame_ms;
+	long		last_anim_time_ms;
+	double		base_move_speed;
+	double		base_rot_speed;
+	long		last_time_ms;
 };
 
 int		app_init(t_app *app, const char *map_path);
