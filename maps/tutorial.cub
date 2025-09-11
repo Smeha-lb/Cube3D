@@ -1,0 +1,17 @@
+NO ./textures/stone_grey.xpm
+SO ./textures/stone_grey.xpm
+WE ./textures/wood_planks.xpm
+EA ./textures/marble_white.xpm
+F 60,60,60
+C 140,160,180
+111111111111
+1N0000000001
+100011111001
+100010001001
+100010T01001
+100000001001
+101111101001
+100000000001
+111111111111
+
+

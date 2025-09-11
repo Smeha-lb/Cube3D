@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:10:52 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/08 14:11:05 by moabdels         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:40:36 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static int	get_tex_color(t_texture *tx, int x, int y)
+int	get_tex_color(t_texture *tx, int x, int y)
 {
 	char	*p;
 
@@ -28,7 +28,8 @@ static int	get_tex_color(t_texture *tx, int x, int y)
 	return (*(int *)p);
 }
 
-static t_texture	*pick_side(t_app *app, int side, double ray_dir_x, double ray_dir_y)
+t_texture	*pick_side(t_app *app, int side
+		, double ray_dir_x, double ray_dir_y)
 {
 	if (side == 0)
 	{
@@ -41,125 +42,51 @@ static t_texture	*pick_side(t_app *app, int side, double ray_dir_x, double ray_d
 	return (&app->cfg.tex_so);
 }
 
-void	raycast_frame(t_app *app)
+/* setup_ray moved to raycast_setup.c to satisfy line limits */
+
+void	walk_until_hit(t_app *app, t_ray *r)
 {
-	int x;
-
-	x = 0;
-	while (x < WIN_W)
+	while (!r->hit)
 	{
-		double camX;
-		double rdx;
-		double rdy;
-		int mapX;
-		int mapY;
-		double sdx;
-		double sdy;
-		double ddx;
-		double ddy;
-		int stepX;
-		int stepY;
-		int hit;
-		int side;
-		double pwd;
-		int line_h;
-		int draw_s;
-		int draw_e;
-		double wallX;
-		t_texture *tx;
-		int tex_x;
-		double step;
-		double texPos;
-		int y;
-		int tex_y;
-		int color;
-
-		camX = 2.0 * x / (double)WIN_W - 1.0;
-		rdx = app->player.dir_x + app->player.plane_x * camX;
-		rdy = app->player.dir_y + app->player.plane_y * camX;
-		mapX = (int)app->player.x;
-		mapY = (int)app->player.y;
-		ddx = (rdx == 0) ? 1e30 : fabs(1.0 / rdx);
-		ddy = (rdy == 0) ? 1e30 : fabs(1.0 / rdy);
-		if (rdx < 0)
+		if (r->sdx < r->sdy)
 		{
-			stepX = -1;
-			sdx = (app->player.x - mapX) * ddx;
+			r->sdx += r->ddx;
+			r->map_x += r->step_x;
+			r->side = 0;
 		}
 		else
 		{
-			stepX = 1;
-			sdx = (mapX + 1.0 - app->player.x) * ddx;
+			r->sdy += r->ddy;
+			r->map_y += r->step_y;
+			r->side = 1;
 		}
-		if (rdy < 0)
-		{
-			stepY = -1;
-			sdy = (app->player.y - mapY) * ddy;
-		}
-		else
-		{
-			stepY = 1;
-			sdy = (mapY + 1.0 - app->player.y) * ddy;
-		}
-		hit = 0;
-		while (!hit)
-		{
-			if (sdx < sdy)
-			{
-				sdx += ddx;
-				mapX += stepX;
-				side = 0;
-			}
-			else
-			{
-				sdy += ddy;
-				mapY += stepY;
-				side = 1;
-			}
-			if (map_is_wall(&app->cfg.map, mapX, mapY))
-				hit = 1;
-			else if (app->cfg.map.grid[mapY][mapX] == 'D')
-				hit = 1;
-		}
-		if (side == 0)
-			pwd = (mapX - app->player.x + (1 - stepX) / 2.0) / rdx;
-		else
-			pwd = (mapY - app->player.y + (1 - stepY) / 2.0) / rdy;
-		line_h = (int)(WIN_H / pwd);
-		draw_s = -line_h / 2 + WIN_H / 2;
-		if (draw_s < 0)
-			draw_s = 0;
-		draw_e = line_h / 2 + WIN_H / 2;
-		if (draw_e >= WIN_H)
-			draw_e = WIN_H - 1;
-		if (side == 0)
-			wallX = app->player.y + pwd * rdy;
-		else
-			wallX = app->player.x + pwd * rdx;
-		wallX -= floor(wallX);
-		if (app->cfg.map.grid[mapY][mapX] == 'D' && app->cfg.tex_door.img)
-			tx = &app->cfg.tex_door;
-		else
-			tx = pick_side(app, side, rdx, rdy);
-		tex_x = (int)(wallX * (double)tx->w);
-		if ((side == 0 && rdx > 0) || (side == 1 && rdy < 0))
-			tex_x = tx->w - tex_x - 1;
-		step = 1.0 * tx->h / line_h;
-		texPos = (draw_s - WIN_H / 2.0 + line_h / 2.0) * step;
-		y = draw_s;
-		while (y < draw_e)
-		{
-			tex_y = (int)texPos & (tx->h - 1);
-			texPos += step;
-			color = get_tex_color(tx, tex_x, tex_y);
-			{
-				char *dst;
-				dst = app->frame.addr + (y * app->frame.line_len + x * (app->frame.bpp / 8));
-				*(unsigned int *)dst = (unsigned int)color;
-			}
-			y++;
-		}
-		app->zbuf[x] = pwd;
-		x++;
+		if (map_is_wall(&app->cfg.map, r->map_x, r->map_y))
+			r->hit = 1;
+		else if (app->cfg.map.grid[r->map_y][r->map_x] == 'D')
+			r->hit = 1;
 	}
+}
+
+void	compute_column_params(t_app *app, t_ray *r)
+{
+	if (r->side == 0)
+		r->pwd = (r->map_x - app->player.x + (1 - r->step_x) / 2.0) / r->rdx;
+	else
+		r->pwd = (r->map_y - app->player.y + (1 - r->step_y) / 2.0) / r->rdy;
+	r->line_h = (int)(WIN_H / r->pwd);
+	r->draw_s = -r->line_h / 2 + WIN_H / 2;
+	if (r->draw_s < 0)
+		r->draw_s = 0;
+	r->draw_e = r->line_h / 2 + WIN_H / 2;
+	if (r->draw_e >= WIN_H)
+		r->draw_e = WIN_H - 1;
+	if (r->side == 0)
+		r->wall_x = app->player.y + r->pwd * r->rdy;
+	else
+		r->wall_x = app->player.x + r->pwd * r->rdx;
+	r->wall_x -= floor(r->wall_x);
+	if (r->wall_x < 1e-6)
+		r->wall_x = 1e-6;
+	else if (r->wall_x > 1.0 - 1e-6)
+		r->wall_x = 1.0 - 1e-6;
 }

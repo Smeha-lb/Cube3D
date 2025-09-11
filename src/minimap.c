@@ -3,87 +3,114 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:16:46 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/08 14:16:47 by moabdels         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:03:54 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-static void	put_px(t_image *img, int x, int y, int c)
+#define MM_SCALE 6
+#define MM_OX 10
+#define MM_OY 10
+
+static void	draw_cell_color(t_image *img, int x, int y, int c)
 {
+	int		i;
+	int		j;
+	int		off;
 	char	*dst;
 
-	if (x < 0 || y < 0 || x >= WIN_W || y >= WIN_H)
-		return ;
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = (unsigned int)c;
-}
-
-static void	draw_rect(t_image *img, int x, int y, int w, int h, int c)
-{
-	int	i;
-	int	j;
-
 	i = 0;
-	while (i < h)
+	while (i < MM_SCALE)
 	{
 		j = 0;
-		while (j < w)
+		while (j < MM_SCALE)
 		{
-			put_px(img, x + j, y + i, c);
+			off = (y + i) * img->line_len + (x + j) * (img->bpp / 8);
+			dst = img->addr + off;
+			*(unsigned int *)dst = (unsigned int)c;
 			j++;
 		}
 		i++;
 	}
 }
 
-void	draw_minimap(t_app *app)
+static void	draw_map_cells(t_app *app)
 {
-	int scale;
-	int y;
-	int x;
-	int ox;
-	int oy;
+	int		y;
+	int		x;
+	int		ox;
+	int		oy;
+	int		c;
 
-	scale = 6;
-	oy = 10;
-	ox = 10;
+	oy = MM_OY;
+	ox = MM_OX;
 	y = 0;
 	while (y < app->cfg.map.height)
 	{
 		x = 0;
 		while (app->cfg.map.grid[y][x])
 		{
+			c = COLOR_MINIMAP_EMPTY;
 			if (app->cfg.map.grid[y][x] == '1')
-				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, COLOR_MINIMAP_WALL);
+				c = COLOR_MINIMAP_WALL;
 			else if (app->cfg.map.grid[y][x] == 'D')
-				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, COLOR_MINIMAP_DOOR);
-			else
-				draw_rect(&app->frame, ox + x * scale, oy + y * scale, scale, scale, COLOR_MINIMAP_EMPTY);
+				c = COLOR_MINIMAP_DOOR;
+			draw_cell_color(&app->frame, ox + x * MM_SCALE,
+				oy + y * MM_SCALE, c);
 			x++;
 		}
 		y++;
 	}
-	draw_rect(&app->frame,
-			 ox + (int)(app->player.x * scale) - 2,
-			 oy + (int)(app->player.y * scale) - 2,
-			 4, 4, COLOR_MINIMAP_PLAYER);
+}
+
+void	draw_minimap(t_app *app)
+{
+	int	x;
+	int	y;
+	int	i;
+	int	j;
+
+	draw_map_cells(app);
+	x = MM_OX + (int)(app->player.x * MM_SCALE) - 2;
+	y = MM_OY + (int)(app->player.y * MM_SCALE) - 2;
+	i = 0;
+	while (i < 4)
+	{
+		j = 0;
+		while (j < 4)
+		{
+			draw_cell_color(&app->frame, x + j, y + i, COLOR_MINIMAP_PLAYER);
+			j++;
+		}
+		i++;
+	}
+}
+
+static int	write_number(char *buf, int i, int v)
+{
+	if (v < 0)
+		v = 0;
+	if (v > 99)
+		v = 99;
+	if (v >= 10)
+	{
+		buf[i++] = '0' + (v / 10);
+		buf[i++] = '0' + (v % 10);
+		return (i);
+	}
+	buf[i++] = '0' + v;
+	return (i);
 }
 
 void	draw_hud(t_app *app)
 {
-	char	buf[64];
-	int		x;
-	int		y;
-	int		a;
-	int		b;
+	char	buf[32];
 	int		i;
 
-	x = WIN_W - 180;
-	y = WIN_H - 90;
 	i = 0;
 	buf[i++] = 'T';
 	buf[i++] = 'o';
@@ -94,32 +121,10 @@ void	draw_hud(t_app *app)
 	buf[i++] = 's';
 	buf[i++] = ' ';
 	buf[i++] = '(';
-	a = app->torch_count;
-	if (a < 0)
-		a = 0;
-	if (a > 99)
-		a = 99;
-	if (a >= 10)
-	{
-		buf[i++] = '0' + (a / 10);
-		buf[i++] = '0' + (a % 10);
-	}
-	else
-		buf[i++] = '0' + a;
+	i = write_number(buf, i, app->torch_count);
 	buf[i++] = '/';
-	b = app->total_torches;
-	if (b < 0)
-		b = 0;
-	if (b > 99)
-		b = 99;
-	if (b >= 10)
-	{
-		buf[i++] = '0' + (b / 10);
-		buf[i++] = '0' + (b % 10);
-	}
-	else
-		buf[i++] = '0' + b;
+	i = write_number(buf, i, app->total_torches);
 	buf[i++] = ')';
 	buf[i] = '\0';
-	mlx_string_put(app->mlx, app->win, x, y, 0xFFFF00, buf);
+	mlx_string_put(app->mlx, app->win, WIN_W - 180, WIN_H - 30, 0xFFFF00, buf);
 }

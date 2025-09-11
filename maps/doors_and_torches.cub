@@ -1,0 +1,18 @@
+NO ./textures/wood_planks.xpm
+SO ./textures/wood_planks.xpm
+WE ./textures/wood_planks.xpm
+EA ./textures/wood_planks.xpm
+DO ./textures/door.xpm
+F 50,45,40
+C 170,180,195
+111111111111111
+1E00TTTTD000001
+111101111101111
+1T00010000100T1
+111101D11101111
+1T00010000100T1
+111101111101111
+1T000000D0000T1
+111111111111111
+
+

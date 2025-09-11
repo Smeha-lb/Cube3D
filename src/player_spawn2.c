@@ -1,47 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   player_spawn2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 14:15:26 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/11 14:54:43 by csamaha          ###   ########.fr       */
+/*   Created: 2025/09/09 16:30:46 by csamaha           #+#    #+#             */
+/*   Updated: 2025/09/09 16:31:41 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	free_lines(char **lines)
+void	init_player_from_map(t_app *app)
 {
-	int	i;
+	t_map	*m;
 
-	i = 0;
-	while (lines && lines[i])
-	{
-		free(lines[i]);
-		i++;
-	}
-	free(lines);
-	return (0);
-}
-
-bool	validate_map_only_chars(char **lines, int start, int end)
-{
-	int	i;
-	int	j;
-
-	i = start;
-	while (i < end)
-	{
-		j = 0;
-		while (lines[i][j])
-		{
-			if (!is_valid_map_char(lines[i][j]))
-				return (false);
-			j++;
-		}
-		i++;
-	}
-	return (true);
+	m = &app->cfg.map;
+	app->player.x = m->player_x + 0.5;
+	app->player.y = m->player_y + 0.5;
+	set_dir_plane(&app->player, m->player_dir);
+	app->player.move_speed = 0.0;
+	app->player.rot_speed = 0.0;
 }

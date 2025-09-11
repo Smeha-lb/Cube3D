@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doors.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:18:51 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/08 14:19:22 by moabdels         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:25:00 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,4 @@ void	toggle_door_in_front(t_app *app)
 		return ;
 	if (c == 'D')
 		app->cfg.map.grid[ty][tx] = '0';
-	else
-		app->cfg.map.grid[ty][tx] = 'D';
 }

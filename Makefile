@@ -16,20 +16,42 @@ INCS		:= -I$(INCS_DIR) $(MLX_INC)
 SRCS		:= \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/app_init.c \
+	$(SRC_DIR)/app_init_setup.c \
+	$(SRC_DIR)/app_init_time_hooks.c \
+	$(SRC_DIR)/app_init_frame.c \
 	$(SRC_DIR)/app_hooks.c \
 	$(SRC_DIR)/app_render.c \
 	$(SRC_DIR)/app_cleanup.c \
 	$(SRC_DIR)/utils_str.c \
 	$(SRC_DIR)/parser.c \
+	$(SRC_DIR)/parser_map.c \
+	$(SRC_DIR)/parser_identifiers.c \
+	$(SRC_DIR)/parser_identifiers2.c \
 	$(SRC_DIR)/parser_utils.c \
+	$(SRC_DIR)/file_read.c \
+	$(SRC_DIR)/lines_split.c \
 	$(SRC_DIR)/map_validation.c \
 	$(SRC_DIR)/textures.c \
-	$(SRC_DIR)/player.c \
+	$(SRC_DIR)/textures2.c \
+	$(SRC_DIR)/player_spawn.c \
+	$(SRC_DIR)/player_spawn2.c \
+	$(SRC_DIR)/player_move_delta.c \
+	$(SRC_DIR)/player_move_delta2.c \
+	$(SRC_DIR)/player_move_try.c \
+	$(SRC_DIR)/player_rotate.c \
+	$(SRC_DIR)/player_update.c \
 	$(SRC_DIR)/raycast.c \
+	$(SRC_DIR)/raycast2.c \
+	$(SRC_DIR)/raycast_setup.c \
 	$(SRC_DIR)/minimap.c \
 	$(SRC_DIR)/doors.c \
 	$(SRC_DIR)/mouse.c \
 	$(SRC_DIR)/sprites.c \
+	$(SRC_DIR)/sprites2.c \
+	$(SRC_DIR)/sprites_utils.c \
+	$(SRC_DIR)/sprites_sort.c \
+	$(SRC_DIR)/sprites_init.c \
+	$(SRC_DIR)/sprites_pickup.c \
 	$(SRC_DIR)/print_error.c \
 	$(SRC_DIR)/utils.c
 

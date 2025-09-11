@@ -3,23 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:17:00 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/08 14:17:05 by moabdels         ###   ########.fr       */
+/*   Updated: 2025/09/11 13:40:36 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+static void	apply_rotation(t_app *a, double rot)
+{
+	double	cs;
+	double	sn;
+	double	old_dx;
+	double	old_px;
+
+	cs = cos(rot);
+	sn = sin(rot);
+	old_dx = a->player.dir_x;
+	a->player.dir_x = a->player.dir_x * cs - a->player.dir_y * sn;
+	a->player.dir_y = old_dx * sn + a->player.dir_y * cs;
+	old_px = a->player.plane_x;
+	a->player.plane_x = a->player.plane_x * cs - a->player.plane_y * sn;
+	a->player.plane_y = old_px * sn + a->player.plane_y * cs;
+}
+
 int	on_mouse_move(int x, int y, void *param)
 {
-	t_app *a;
-	double dx;
-	double cs;
-	double sn;
-	double old_dx;
-	double old_px;
+	t_app	*a;
+	double	dx;
 
 	(void)y;
 	a = (t_app *)param;
@@ -28,21 +41,9 @@ int	on_mouse_move(int x, int y, void *param)
 		a->last_mouse_x = WIN_W / 2;
 		return (0);
 	}
-	dx = (double)(x - (WIN_W / 2));
+	dx = (double)x - (double)WIN_W / 2.0;
 	if (dx != 0.0)
-	{
-		double rot;
-
-		rot = dx * 0.0025;
-		cs = cos(rot);
-		sn = sin(rot);
-		old_dx = a->player.dir_x;
-		a->player.dir_x = a->player.dir_x * cs - a->player.dir_y * sn;
-		a->player.dir_y = old_dx * sn + a->player.dir_y * cs;
-		old_px = a->player.plane_x;
-		a->player.plane_x = a->player.plane_x * cs - a->player.plane_y * sn;
-		a->player.plane_y = old_px * sn + a->player.plane_y * cs;
-	}
+		apply_rotation(a, dx * (1.0 / 400.0));
 	mlx_mouse_move(a->mlx, a->win, WIN_W / 2, WIN_H / 2);
 	a->last_mouse_x = WIN_W / 2;
 	return (0);

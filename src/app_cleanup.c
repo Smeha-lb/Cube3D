@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   app_cleanup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:21:45 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/08 14:21:46 by moabdels         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:08:51 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,9 @@ void	app_cleanup(t_app *app)
 	free_config(&app->cfg);
 	destroy_image(app->mlx, &app->frame);
 	mlx_destroy_window(app->mlx, app->win);
-#ifdef __linux__
 	if (app->mlx)
 	{
 		mlx_destroy_display(app->mlx);
 		free(app->mlx);
 	}
-#endif
 }

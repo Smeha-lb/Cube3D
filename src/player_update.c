@@ -1,47 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   player_update.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 14:15:26 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/11 14:54:43 by csamaha          ###   ########.fr       */
+/*   Created: 2025/09/09 16:38:28 by csamaha           #+#    #+#             */
+/*   Updated: 2025/09/09 16:38:34 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	free_lines(char **lines)
+void	update_player(t_app *app)
 {
-	int	i;
+	double	dx;
+	double	dy;
 
-	i = 0;
-	while (lines && lines[i])
+	compute_move_delta(app, &dx, &dy);
+	if (dx != 0.0 || dy != 0.0)
 	{
-		free(lines[i]);
-		i++;
+		try_move_player(app, app->player.x + dx, app->player.y + dy);
+		pickup_sprites_near_player(app);
 	}
-	free(lines);
-	return (0);
-}
-
-bool	validate_map_only_chars(char **lines, int start, int end)
-{
-	int	i;
-	int	j;
-
-	i = start;
-	while (i < end)
-	{
-		j = 0;
-		while (lines[i][j])
-		{
-			if (!is_valid_map_char(lines[i][j]))
-				return (false);
-			j++;
-		}
-		i++;
-	}
-	return (true);
+	apply_rotation_from_keys(app);
 }

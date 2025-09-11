@@ -1,47 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   sprites2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/08 14:15:26 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/11 14:54:43 by csamaha          ###   ########.fr       */
+/*   Created: 2025/09/08 14:09:46 by moabdels          #+#    #+#             */
+/*   Updated: 2025/09/11 15:30:54 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	free_lines(char **lines)
+void	render_one_sprite(t_app *app, t_sprite *s)
 {
-	int	i;
+	t_sprite_stripes	ss;
 
-	i = 0;
-	while (lines && lines[i])
-	{
-		free(lines[i]);
-		i++;
-	}
-	free(lines);
-	return (0);
+	if (compute_sprite_stripes(app, s, &ss) != 0)
+		return ;
+	render_sprite_stripes(app, ss);
 }
 
-bool	validate_map_only_chars(char **lines, int start, int end)
+void	draw_sprites(t_app *app)
 {
-	int	i;
-	int	j;
+	int		i;
 
-	i = start;
-	while (i < end)
+	if (app->cfg.num_sprites <= 0)
+		return ;
+	if (!app->cfg.tex_torch.img && app->cfg.torch_frame_count <= 0)
+		return ;
+	sort_sprites_by_depth(app);
+	i = 0;
+	while (i < app->cfg.num_sprites)
 	{
-		j = 0;
-		while (lines[i][j])
-		{
-			if (!is_valid_map_char(lines[i][j]))
-				return (false);
-			j++;
-		}
+		render_one_sprite(app, &app->cfg.sprites[i]);
 		i++;
 	}
-	return (true);
 }

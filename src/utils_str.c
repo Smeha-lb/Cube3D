@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moabdels <moabdels@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamaha <csamaha@student.42beirut.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 14:10:17 by moabdels          #+#    #+#             */
-/*   Updated: 2025/09/08 14:10:23 by moabdels         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:08:24 by csamaha          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 size_t	my_strlen(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (!s)
@@ -27,7 +27,7 @@ size_t	my_strlen(const char *s)
 
 int	my_strncmp(const char *a, const char *b, size_t n)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < n && a[i] && b[i])
@@ -43,9 +43,9 @@ int	my_strncmp(const char *a, const char *b, size_t n)
 
 char	*my_strdup(const char *s)
 {
-	size_t len;
-	char *p;
-	size_t i;
+	size_t	len;
+	char	*p;
+	size_t	i;
 
 	len = my_strlen(s);
 	p = (char *)malloc(len + 1);
@@ -72,8 +72,8 @@ int	my_is_space(int c)
 
 int	my_atoi(const char *s, int *out)
 {
-	long v;
-	int sign;
+	long	v;
+	int		sign;
 
 	v = 0;
 	sign = 1;
